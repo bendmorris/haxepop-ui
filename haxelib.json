@@ -1,0 +1,13 @@
+{
+	"name": "haxepop-ui",
+	"url" : "http://haxepop.com",
+	"license": "MIT",
+	"tags": ["flash", "game", "cpp", "openfl"],
+	"description": "A UI framework for the HaxePop game engine.",
+	"version": "0.1.0",
+	"releasenote": "See CHANGELOG",
+	"contributors": ["bendmorris"],
+	"dependencies": {
+		"haxepop": ""
+	}
+}
