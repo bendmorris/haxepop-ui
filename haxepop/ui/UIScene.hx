@@ -22,7 +22,7 @@ class UIScene extends Scene implements UIObject
 	public function get(id:String):UIEntity return entityMap[id];
 
 	/**
-	 * Given the path to an XML layout file (e.g. "data/layouts.myscene.xml"),
+	 * Given the path to an XML layout file (e.g. "data/layouts/myscene.xml"),
 	 * parses the XML and generates/lays out the UIEntities.
 	 */
 	public function layout(layoutXML:String)

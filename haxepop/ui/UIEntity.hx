@@ -11,14 +11,30 @@ class UIEntity extends Entity implements UIObject
 {
 	public static function parseDiv(fast:haxe.xml.Fast, parent:haxepop.ui.UIObject)
 	{
-		var width = fast.has.width ? UIUnit.value(fast.att.width, parent.availableWidth) : parent.availableWidth,
-			height = fast.has.height ? UIUnit.value(fast.att.height, parent.availableHeight) : parent.availableHeight;
+		var width = fast.has.width ? Unit.value(fast.att.width, parent.availableWidth) : parent.availableWidth,
+			height = fast.has.height ? Unit.value(fast.att.height, parent.availableHeight) : parent.availableHeight;
 		if (width == 0) width = parent.availableWidth;
 		if (height == 0) height = parent.availableHeight;
 
 		var e = new UIEntity();
 		e.width = Std.int(width);
 		e.height = Std.int(height);
+
+		return e;
+	}
+
+	public static function parseImg(fast:haxe.xml.Fast, parent:haxepop.ui.UIObject)
+	{
+		var width:Null<Float> = fast.has.width ? Unit.value(fast.att.width, parent.availableWidth) : null,
+			height:Null<Float> = fast.has.height ? Unit.value(fast.att.height, parent.availableHeight) : null;
+
+		var img = new haxepop.graphics.Image(fast.att.src);
+
+		var e = new UIEntity(img);
+		e.width = Std.int(width == null ? (height == null ? img.width : img.width * e.height / img.height) : width);
+		e.height = Std.int(height == null ? (width == null ? img.height : img.height * e.width / img.width) : height);
+		img.scaleX = e.width / img.width;
+		img.scaleY = e.height / img.height;
 
 		return e;
 	}
@@ -31,7 +47,6 @@ class UIEntity extends Entity implements UIObject
 	public var handOffsetY:Int = 0;
 
 	public var parent:UIObject;
-	public var clipRect:Rectangle;
 	public var children:Array<UIEntity> = new Array();
 
 	public var paddingTop:Float = 0;

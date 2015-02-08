@@ -12,8 +12,9 @@ class UI
 	public static function init()
 	{
 		registerEntityType("div", haxepop.ui.UIEntity.parseDiv);
-		registerEntityType("hsizer", haxepop.ui.HSizer.parse);
-		registerEntityType("vsizer", haxepop.ui.VSizer.parse);
+		registerEntityType("img", haxepop.ui.UIEntity.parseImg);
+		registerEntityType("hsizer", haxepop.ui.entities.HSizer.parse);
+		registerEntityType("vsizer", haxepop.ui.entities.VSizer.parse);
 	}
 
 	public static var entityTypes:Map<String, EntityParser> = new Map();
