@@ -16,8 +16,8 @@ import haxepop.ui.Color;
 @:enum
 abstract Tag(String) from String to String
 {
-	var Color = "color";
-	var End = "";
+	var ColorTag = "color";
+	var EndTag = "";
 }
 
 /**
@@ -75,7 +75,7 @@ class RichText extends BitmapText
 						if (letter == ']')
 						{
 							// process tag
-							var key:Tag = End;
+							var key:Tag = EndTag;
 							var val:String = "";
 							if (tag.indexOf('=') > -1)
 							{
@@ -89,9 +89,9 @@ class RichText extends BitmapText
 							}
 							switch(key)
 							{
-								case Color:
+								case ColorTag:
 									color = Color.colors[val];
-								case End:
+								case EndTag:
 									color = originalColor;
 							}
 							tag = null;

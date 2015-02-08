@@ -2,6 +2,7 @@ package haxepop.ui;
 
 import haxe.xml.Fast;
 import haxepop.HXP;
+import haxepop.Platform;
 import haxepop.Entity;
 import haxepop.Scene;
 import haxepop.Input;
@@ -70,11 +71,40 @@ class UIScene extends Scene implements UIObject
 		for (entity in entities) add(entity);
 	}
 
+	function parseAttributes(node:Xml)
+	{
+		// check for the existence of platform-specific attributes; if there are
+		// multiple attributes which match (e.g. text-mobile and text-ios),
+		// behavior will be undefined as attribute order is not guaranteed
+		for (att in node.attributes())
+		{
+			if (att.indexOf("-") > 0)
+			{
+				var parts = att.split("-");
+				var attributeName = parts[0];
+				var platform = parts[1];
+				if (Platform.check(platform))
+				{
+					node.set(attributeName, node.get(att));
+				}
+			}
+		}
+	}
+
 	function parseEntities(node:Xml, entityTracker:EntityTracker, parent:UIObject)
 	{
 		for (child in node.elements())
 		{
+			parseAttributes(child);
+
 			var fast = new Fast(child);
+
+			// use platform-specific if/unless to filter elements
+			if (fast.has.resolve("if") && !Platform.check(fast.att.resolve("if")))
+				continue;
+			if (fast.has.unless && Platform.check(fast.att.unless))
+				continue;
+
 			var e:UIEntity = null;
 
 			if (UI.entityTypes.exists(child.nodeName))
@@ -224,7 +254,7 @@ class UIScene extends Scene implements UIObject
 	{
 		if (transitionProgress == 0)
 		{
-			if (Platform.mobile && !Mouse.mousePressed) mouseOver = null
+			if (Platform.check(Platform.Mobile) && !Mouse.mousePressed) mouseOver = null
 			else mouseOver = cast collidePoint("ui", Mouse.mouseX + HXP.camera.x, Mouse.mouseY + HXP.camera.y);
 
 			clicked = Mouse.mousePressed ? mouseOver : null;

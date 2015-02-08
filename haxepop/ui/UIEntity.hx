@@ -27,8 +27,10 @@ class UIEntity extends Entity implements UIObject
 	{
 		var width:Null<Float> = fast.has.width ? Unit.value(fast.att.width, parent.availableWidth) : null,
 			height:Null<Float> = fast.has.height ? Unit.value(fast.att.height, parent.availableHeight) : null;
+		var center = fast.has.center && fast.att.center == 'true';
 
 		var img = new haxepop.graphics.Image(fast.att.src);
+		if (center) img.centerOrigin();
 
 		var e = new UIEntity(img);
 		e.width = Std.int(width == null ? (height == null ? img.width : img.width * e.height / img.height) : width);
