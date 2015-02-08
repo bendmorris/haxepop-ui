@@ -11,19 +11,12 @@ import haxepop.graphics.Image;
 import haxepop.input.Mouse;
 import haxepop.input.Key;
 import haxepop.utils.Draw;
+import haxepop.UI;
 import openfl.Assets;
 
 
-typedef EntityParser = Fast -> UIObject -> UIEntity;
-
 class UIScene extends Scene implements UIObject
 {
-	static var _entityTypes:Map<String, EntityParser> = new Map();
-	public static function registerEntityType(name:String, parser:EntityParser)
-	{
-		_entityTypes[name] = parser;
-	}
-
 	var entities:Array<UIEntity> = new Array();
 	var entityMap:Map<String, UIEntity> = new Map();
 	public function get(id:String):UIEntity return entityMap[id];
@@ -84,9 +77,9 @@ class UIScene extends Scene implements UIObject
 			var fast = new Fast(child);
 			var e:UIEntity = null;
 
-			if (_entityTypes.exists(child.nodeName))
+			if (UI.entityTypes.exists(child.nodeName))
 			{
-				e = _entityTypes[child.nodeName](fast, parent);
+				e = UI.entityTypes[child.nodeName](fast, parent);
 			}
 			else
 			{

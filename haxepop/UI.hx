@@ -1,14 +1,31 @@
 package haxepop;
 
-import haxepop.ui.UIScene;
+import haxe.xml.Fast;
+import haxepop.ui.UIObject;
+import haxepop.ui.UIEntity;
 
+
+typedef EntityParser = Fast -> UIObject -> Null<UIEntity>;
 
 class UI
 {
 	public static function init()
 	{
-		UIScene.registerEntityType("div", haxepop.ui.UIEntity.parseDiv);
-		UIScene.registerEntityType("hsizer", haxepop.ui.HSizer.parse);
-		UIScene.registerEntityType("vsizer", haxepop.ui.VSizer.parse);
+		registerEntityType("div", haxepop.ui.UIEntity.parseDiv);
+		registerEntityType("hsizer", haxepop.ui.HSizer.parse);
+		registerEntityType("vsizer", haxepop.ui.VSizer.parse);
+	}
+
+	public static var entityTypes:Map<String, EntityParser> = new Map();
+
+	/**
+	 * This function is called to register XML node types and the corresponding
+	 * parser function which will parse them. The parser function will take the
+	 * haxe.xml.Fast representation of the XML node and the entity's parent,
+	 * and generate a new UIEntity (or null if none.)
+	 */
+	public static function registerEntityType(name:String, parser:EntityParser)
+	{
+		entityTypes[name] = parser;
 	}
 }
