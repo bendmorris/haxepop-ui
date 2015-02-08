@@ -1,13 +1,13 @@
-package haxepop.ui;
+package haxepop.ui.entities;
 
 
-class HSizer extends UISizer
+class HSizer extends Sizer
 {
 	public static function parse(fast:haxe.xml.Fast, parent:haxepop.ui.UIObject)
 	{
-		var spacing = fast.has.spacing ? UIUnit.value(fast.att.spacing) : 0;
-		var width = fast.has.width ? UIUnit.value(fast.att.width, parent.availableWidth) : parent.availableWidth,
-			height = fast.has.height ? UIUnit.value(fast.att.height, parent.availableHeight) : parent.availableHeight;
+		var spacing = fast.has.spacing ? Unit.value(fast.att.spacing) : 0;
+		var width = fast.has.width ? Unit.value(fast.att.width, parent.availableWidth) : parent.availableWidth,
+			height = fast.has.height ? Unit.value(fast.att.height, parent.availableHeight) : parent.availableHeight;
 		var center = fast.has.center && fast.att.center == 'true';
 
 		var e = new HSizer(width, height, spacing, center);

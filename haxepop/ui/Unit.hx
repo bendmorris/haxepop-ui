@@ -1,7 +1,7 @@
 package haxepop.ui;
 
 
-class UIUnit
+class Unit
 {
 	public static var units:Map<String, Float> = [
 		"px" => 1,

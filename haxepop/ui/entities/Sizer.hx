@@ -1,10 +1,10 @@
-package haxepop.ui;
+package haxepop.ui.entities;
 
 import haxepop.HXP;
 import haxepop.utils.Math;
 
 
-class UISizer extends UIEntity
+class Sizer extends UIEntity
 {
 	var spacing:Float = 0;
 	var horizontal:Bool = true;
