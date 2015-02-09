@@ -29,4 +29,9 @@ abstract Color(Int) from Int to Int
 		"cyan" => Cyan,
 		"gold" => Gold,
 	];
+
+	public static function define(name:String, color:Int)
+	{
+		colors.set(name, color);
+	}
 }

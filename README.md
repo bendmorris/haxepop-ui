@@ -31,11 +31,16 @@ method.
         var startLabel:BitmapText;
         var loadImage:Image;
     
+        /**
+         * A custom XML parser which returns entities for text labels.
+         */
         public static function parseLabel(fast:haxe.xml.Fast, parent:haxepop.ui.UIObject)
         {
+            // parse text attributes from the XML node
             var text = fast.has.text ? fast.att.text : "";
+            // you can define your own custom color names with Color.define
             var color = fast.has.color ? Color.colors[fast.att.color] : Color.Black;
-            var wordWrap = fast.has.wordWrap ? fast.att.wordWrap == 'true' : false;
+            var wordWrap = fast.has.wordWrap && fast.att.wordWrap == 'true';
             var size = fast.has.size ? Unit.value(fast.att.size) : 1;
             var width = fast.has.width ? Unit.value(fast.att.width, parent.availableWidth) : 0,
                 height = fast.has.height ? Unit.value(fast.att.height, parent.availableHeight) : 0;
@@ -44,6 +49,7 @@ method.
             label.computeTextSize();
     
             var e = new haxepop.ui.UIEntity(label);
+            // if the width or height is left out, use the dimensions of the text
             if (!fast.has.width)
                 e.width = label.textWidth;
             if (!fast.has.height)
@@ -56,10 +62,14 @@ method.
         {
             super();
     
+            // register the "label" node's custom XML parsing function
             UI.registerEntityType("label", parseLabel);
     
+            // parse the layout XML file, create the entities, and add them to
+            // the scene
             layout("data/layouts/main_menu.xml");
     
+            // get pointers to layout objects by ID
             startLabel = cast(get("startLabel").graphic, BitmapText);
             loadImage = cast(get("loadImage").graphic, Image);
         }
