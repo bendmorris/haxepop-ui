@@ -15,6 +15,7 @@ class UI
 		registerEntityType("img", haxepop.ui.UIEntity.parseImg);
 		registerEntityType("hsizer", haxepop.ui.entities.HSizer.parse);
 		registerEntityType("vsizer", haxepop.ui.entities.VSizer.parse);
+		registerEntityType("box", haxepop.ui.entities.Box.parse);
 	}
 
 	public static var entityTypes:Map<String, EntityParser> = new Map();
