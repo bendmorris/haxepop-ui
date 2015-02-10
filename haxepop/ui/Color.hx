@@ -34,4 +34,10 @@ abstract Color(Int) from Int to Int
 	{
 		colors.set(name, color);
 	}
+
+	public static function parse(s:String):Color
+	{
+		if (colors.exists(s)) return colors[s];
+		return Std.parseInt(s);
+	}
 }

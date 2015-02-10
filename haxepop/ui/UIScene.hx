@@ -46,7 +46,7 @@ class UIScene extends Scene implements UIObject
 		var fast = new Fast(sceneNode);
 
 		// parse the scene node
-		bgColor = fast.has.color ? Color.colors[fast.att.color] : Color.Black;
+		bgColor = fast.has.color ? Color.parse(fast.att.color) : Color.Black;
 		if (fast.has.padding) padding = Unit.value(fast.att.padding);
 		if (fast.has.transition)
 		{
