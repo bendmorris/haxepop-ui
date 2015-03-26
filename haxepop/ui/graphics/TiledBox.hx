@@ -7,9 +7,10 @@ import haxepop.utils.Math;
 
 class TiledBox extends Tilemap
 {
-	public function new(tileset:TileType, width:Int, height:Int, tileWidth:Int, tileHeight:Int)
+	public function new(tileset:TileType, width:Int, height:Int, tileWidth:Int, tileHeight:Int, ?scale:Float=1)
 	{
-		super(tileset, width, height, tileWidth, tileHeight);
+		super(tileset, Std.int(width/scale), Std.int(height/scale), tileWidth, tileHeight);
+		this.scale = scale;
 
 		setTiles();
 	}

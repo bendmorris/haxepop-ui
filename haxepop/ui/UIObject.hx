@@ -6,6 +6,8 @@ interface UIObject
 	public var width:Int;
 	public var height:Int;
 
+	public var visible(get, set):Bool;
+
 	public var worldX(get, set):Float;
 	public var worldY(get, set):Float;
 

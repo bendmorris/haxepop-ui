@@ -8,7 +8,7 @@ class VSizer extends Sizer
 		var spacing = fast.has.spacing ? Unit.value(fast.att.spacing) : 0;
 		var width = fast.has.width ? Unit.value(fast.att.width, parent.availableWidth) : parent.availableWidth,
 			height = fast.has.height ? Unit.value(fast.att.height, parent.availableHeight) : parent.availableHeight;
-		var center = fast.has.center && fast.att.center == 'true';
+		var center = fast.has.center ? Unit.boolOptions(fast.att.center) : false;
 
 		var e = new VSizer(width, height, spacing, center);
 

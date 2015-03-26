@@ -18,6 +18,8 @@ import openfl.Assets;
 
 class UIScene extends Scene implements UIObject
 {
+	override function get_visible() return true;
+
 	var entities:Array<UIEntity> = new Array();
 	var entityMap:Map<String, UIEntity> = new Map();
 	public function get(id:String):UIEntity return entityMap[id];
@@ -56,6 +58,7 @@ class UIScene extends Scene implements UIObject
 					var tx = fast.has.transitionX ? Std.parseInt(fast.att.transitionX) : -1;
 					var ty = fast.has.transitionY ? Std.parseInt(fast.att.transitionY) : 0;
 					transition = Slide(tx, ty);
+
 				case "fade":
 					var tc = fast.has.transitionColor ? Color.colors[fast.att.transitionColor] : bgColor;
 					transition = Fade(tc);
@@ -118,22 +121,22 @@ class UIScene extends Scene implements UIObject
 
 			if (e != null)
 			{
-				if (fast.has.padding) e.padding = Unit.value(fast.att.padding);
-				e.paddingTop += fast.has.paddingTop ? Unit.value(fast.att.paddingTop, parent.height) : 0;
-				e.paddingBottom += fast.has.paddingBottom ? Unit.value(fast.att.paddingBottom, parent.height) : 0;
-				e.paddingLeft += fast.has.paddingLeft ? Unit.value(fast.att.paddingLeft, parent.width) : 0;
-				e.paddingRight += fast.has.paddingRight ? Unit.value(fast.att.paddingRight, parent.width) : 0;
+				if (fast.has.padding) e.padding = Std.int(Unit.value(fast.att.padding));
+				if (fast.has.paddingTop) e.paddingTop = Std.int(fast.has.paddingTop ? Unit.value(fast.att.paddingTop, parent.availableHeight) : 0);
+				if (fast.has.paddingBottom) e.paddingBottom = Std.int(fast.has.paddingBottom ? Unit.value(fast.att.paddingBottom, parent.availableHeight) : 0);
+				if (fast.has.paddingLeft) e.paddingLeft = Std.int(fast.has.paddingLeft ? Unit.value(fast.att.paddingLeft, parent.availableWidth) : 0);
+				if (fast.has.paddingRight) e.paddingRight = Std.int(fast.has.paddingRight ? Unit.value(fast.att.paddingRight, parent.availableWidth) : 0);
 
 				var x:Float = 0;
 				var y:Float = 0;
 				if (fast.has.x)
-					x = Unit.value(fast.att.x, parent.width);
+					x = Unit.value(fast.att.x, parent.availableWidth);
 				else if (fast.has.right)
-					x = parent.width - Unit.value(fast.att.right, parent.width) - parent.paddingLeft - parent.paddingRight - e.width;
+					x = parent.availableWidth - Unit.value(fast.att.right, parent.availableWidth);
 				if (fast.has.y)
-					y = Unit.value(fast.att.y, parent.height);
+					y = Unit.value(fast.att.y, parent.availableHeight);
 				else if (fast.has.bottom)
-					y = parent.height - Unit.value(fast.att.bottom, parent.height) - parent.paddingTop - parent.paddingBottom - e.height;
+					y = parent.availableHeight - Unit.value(fast.att.bottom, parent.availableHeight);
 				parent.addChild(e, x, y);
 
 

@@ -6,19 +6,19 @@ import haxepop.utils.Math;
 
 class Sizer extends UIEntity
 {
-	var spacing:Float = 0;
-	var horizontal:Bool = true;
-	var center:Bool = false;
+	public var spacing:Float = 0;
+	public var horizontal:Bool = true;
+	public var center:Bool = false;
 
 	var childSize:Float = 0;
 
 	override function get_availableWidth()
 	{
-		return width - paddingLeft - paddingRight - (horizontal ? childSize : 0);
+		return width - paddingLeft - paddingRight;
 	}
 	override function get_availableHeight()
 	{
-		return height - paddingTop - paddingBottom - (horizontal ? 0 : childSize);
+		return height - paddingTop - paddingBottom;
 	}
 
 	function new(?width:Float=0, ?height:Float=0, ?spacing:Float=0, ?center:Bool=false)
@@ -64,7 +64,7 @@ class Sizer extends UIEntity
 			for (child in children)
 			{
 				child.x = x;
-				child.y = paddingTop + (height - paddingTop - paddingBottom)/2 - child.height/2;
+				child.y = Std.int(availableHeight/2 - child.height/2);
 				x += child.width + spacing;
 			}
 		}
@@ -74,7 +74,7 @@ class Sizer extends UIEntity
 			for (child in children)
 			{
 				child.y = y;
-				child.x = paddingLeft + (width - paddingLeft - paddingRight)/2 - child.width/2;
+				child.x = Std.int(availableWidth/2 - child.width/2);
 				y += child.height + spacing;
 			}
 		}

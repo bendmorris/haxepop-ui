@@ -5,42 +5,11 @@ import haxepop.HXP;
 import haxepop.Entity;
 import haxepop.Input;
 import haxepop.utils.Math;
+import haxepop.input.Mouse;
 
 
 class UIEntity extends Entity implements UIObject
 {
-	public static function parseDiv(fast:haxe.xml.Fast, parent:haxepop.ui.UIObject)
-	{
-		var width = fast.has.width ? Unit.value(fast.att.width, parent.availableWidth) : parent.availableWidth,
-			height = fast.has.height ? Unit.value(fast.att.height, parent.availableHeight) : parent.availableHeight;
-		if (width == 0) width = parent.availableWidth;
-		if (height == 0) height = parent.availableHeight;
-
-		var e = new UIEntity();
-		e.width = Std.int(width);
-		e.height = Std.int(height);
-
-		return e;
-	}
-
-	public static function parseImg(fast:haxe.xml.Fast, parent:haxepop.ui.UIObject)
-	{
-		var width:Null<Float> = fast.has.width ? Unit.value(fast.att.width, parent.availableWidth) : null,
-			height:Null<Float> = fast.has.height ? Unit.value(fast.att.height, parent.availableHeight) : null;
-		var center = fast.has.center && fast.att.center == 'true';
-
-		var img = new haxepop.graphics.Image(fast.att.src);
-		if (center) img.centerOrigin();
-
-		var e = new UIEntity(img);
-		e.width = Std.int(width == null ? (height == null ? img.width : img.width * e.height / img.height) : width);
-		e.height = Std.int(height == null ? (width == null ? img.height : img.height * e.width / img.width) : height);
-		img.scaleX = e.width / img.width;
-		img.scaleY = e.height / img.height;
-
-		return e;
-	}
-
 	public var id:String;
 	public var value:Null<Dynamic>;
 
@@ -50,6 +19,11 @@ class UIEntity extends Entity implements UIObject
 
 	public var parent:UIObject;
 	public var children:Array<UIEntity> = new Array();
+
+	override function get_visible():Bool
+	{
+		return visible && (parent == null || parent.visible);
+	}
 
 	public var paddingTop:Float = 0;
 	public var paddingBottom:Float = 0;
@@ -62,10 +36,10 @@ class UIEntity extends Entity implements UIObject
 	public var localY:Float = 0;
 
 	public var worldX(get, set):Float;
-	inline function get_worldX():Float return localX + (parent == null ? 0 : (parent.worldX + parent.paddingLeft));
+	function get_worldX():Float return localX + (parent == null ? 0 : (parent.worldX + parent.paddingLeft));
 	inline function set_worldX(x:Float) return localX = x - (parent.worldX + parent.paddingLeft);
 	public var worldY(get, set):Float;
-	inline function get_worldY():Float return localY + (parent == null ? 0 : (parent.worldY + parent.paddingTop));
+	function get_worldY():Float return localY + (parent == null ? 0 : (parent.worldY + parent.paddingTop));
 	inline function set_worldY(y:Float) return localY = y - (parent.worldY + parent.paddingTop);
 
 	public var availableWidth(get, never):Float;
@@ -107,10 +81,25 @@ class UIEntity extends Entity implements UIObject
 		children.push(child);
 	}
 
+	public function clearChildren()
+	{
+		while (children.length > 0)
+		{
+			var child = children.pop();
+			if (child.scene == scene) scene.remove(child);
+		}
+	}
+
 	public var mouseOver(get, never):Bool;
 	function get_mouseOver()
 	{
 		return cast(scene, UIScene).mouseOver == this;
+	}
+	public var mouseOverAbsolute(get, never):Bool;
+	function get_mouseOverAbsolute()
+	{
+		return Mouse.mouseX >= x && Mouse.mouseX <= x + width &&
+			Mouse.mouseY >= y && Mouse.mouseY <= y + height;
 	}
 	public var clicked(get, never):Bool;
 	function get_clicked()

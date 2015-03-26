@@ -11,10 +11,13 @@ class UI
 {
 	public static function init()
 	{
-		registerEntityType("div", haxepop.ui.UIEntity.parseDiv);
-		registerEntityType("img", haxepop.ui.UIEntity.parseImg);
+		registerEntityType("div", haxepop.ui.entities.Div.parse);
 		registerEntityType("hsizer", haxepop.ui.entities.HSizer.parse);
 		registerEntityType("vsizer", haxepop.ui.entities.VSizer.parse);
+		registerEntityType("vscroll", haxepop.ui.entities.VScroll.parse);
+		registerEntityType("gridsizer", haxepop.ui.entities.GridSizer.parse);
+		registerEntityType("label", haxepop.ui.entities.Label.parse);
+		registerEntityType("img", haxepop.ui.entities.Img.parse);
 		registerEntityType("box", haxepop.ui.entities.Box.parse);
 	}
 

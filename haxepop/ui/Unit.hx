@@ -45,4 +45,17 @@ class Unit
 			else return value;
 		}
 	}
+
+	public static function options<T>(value:String, options:Map<String, T>):T
+	{
+		if (options.exists(value))
+			return options[value];
+
+		throw "Must be one of: (" + [for (k in options.keys()) k].join(" | ") + ")";
+	}
+
+	public static function boolOptions(value:String):Bool
+	{
+		return options(value, ["true" => true, "false" => false]);
+	}
 }
