@@ -25,7 +25,7 @@ class Label extends UIEntity
 		var font = fast.att.font;
 		var size = Std.int(fast.has.size ? Unit.value(fast.att.size) : 12);
 
-		var label = new RichText(text, 0, 0, width, height, {font: font, size: size, color: color});
+		var label = new RichText(text, 0, 0, width, height, {font: font, size: size, color: color, wordWrap: wordWrap});
 		label.computeTextSize();
 
 		var e = new Label(label);
