@@ -122,10 +122,12 @@ class UIScene extends Scene implements UIObject
 			if (e != null)
 			{
 				if (fast.has.padding) e.padding = Std.int(Unit.value(fast.att.padding));
-				if (fast.has.paddingTop) e.paddingTop = Std.int(fast.has.paddingTop ? Unit.value(fast.att.paddingTop, parent.availableHeight) : 0);
-				if (fast.has.paddingBottom) e.paddingBottom = Std.int(fast.has.paddingBottom ? Unit.value(fast.att.paddingBottom, parent.availableHeight) : 0);
-				if (fast.has.paddingLeft) e.paddingLeft = Std.int(fast.has.paddingLeft ? Unit.value(fast.att.paddingLeft, parent.availableWidth) : 0);
-				if (fast.has.paddingRight) e.paddingRight = Std.int(fast.has.paddingRight ? Unit.value(fast.att.paddingRight, parent.availableWidth) : 0);
+				if (fast.has.paddingTop) e.paddingTop = Std.int(Unit.value(fast.att.paddingTop, parent.availableHeight));
+				if (fast.has.paddingBottom) e.paddingBottom = Std.int(Unit.value(fast.att.paddingBottom, parent.availableHeight));
+				if (fast.has.paddingLeft) e.paddingLeft = Std.int(Unit.value(fast.att.paddingLeft, parent.availableWidth));
+				if (fast.has.paddingRight) e.paddingRight = Std.int(Unit.value(fast.att.paddingRight, parent.availableWidth));
+
+				if (fast.has.layer) e.layer = Std.int(Unit.value(fast.att.layer));
 
 				var x:Float = 0;
 				var y:Float = 0;
