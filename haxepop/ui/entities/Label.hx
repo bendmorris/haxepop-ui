@@ -8,7 +8,15 @@ class Label extends UIEntity
 {
 	public static function parse(fast:haxe.xml.Fast, parent:haxepop.ui.UIObject)
 	{
-		var text = fast.has.text ? fast.att.text : "";
+		var text = fast.has.text ? fast.att.text : null;
+		if (text == null)
+		{
+			try
+			{
+				text = fast.innerData;
+			}
+			catch (e:Dynamic) text = "";
+		}
 		var color = fast.has.color ? Color.colors[fast.att.color] : Color.Black;
 		var wordWrap = fast.has.wordWrap ? Unit.boolOptions(fast.att.wordWrap) : false;
 		var size = fast.has.size ? Unit.value(fast.att.size) : 1;
